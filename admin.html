@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="dark">
+  <title>FRONTERA Studio · Control del LIVE</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23090e1b'/%3E%3Cpath d='M14 12h16v40H14z' fill='%23ff4864'/%3E%3Cpath d='M34 12h16v40H34z' fill='%2348acff'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="admin.css"><script defer src="admin.js"></script>
+</head>
+<body>
+  <header class="topbar"><a href="/admin" class="logo"><i></i> FRONTERA <span>STUDIO / 02</span></a><div class="top-actions"><span id="server-status" class="pill">CONECTANDO</span><a href="/" target="_blank" rel="noopener" class="button secondary">Abrir overlay ↗</a></div></header>
+  <main class="layout">
+    <aside class="sidebar">
+      <div class="section-kicker">CENTRO DE CONEXIÓN</div>
+      <section class="card connection-card">
+        <div class="card-title"><span class="icon">↗</span><h2>Tu TikTok LIVE</h2><span id="provider-badge" class="tag">LOCAL</span></div>
+        <div class="connection-state"><i id="provider-dot"></i><div><strong id="connection-state">Preparando servidor</strong><small id="last-event">Sin eventos recibidos</small></div></div>
+        <form id="connection-form">
+          <label>Proveedor<select id="provider"><option value="local">Simulador local</option><option value="euler">Euler Stream</option><option value="tikfinity">TikFinity Desktop</option></select></label>
+          <div id="euler-fields" hidden>
+            <label>Usuario de TikTok<input id="username" placeholder="tu_usuario" maxlength="32" autocomplete="off"></label>
+            <label>API key de Euler Stream<input id="api-key" type="password" placeholder="Pegar una nueva clave" maxlength="2048" autocomplete="new-password" spellcheck="false"></label>
+            <div class="field-hint" id="key-state">Sin clave configurada.</div>
+            <label class="checkbox"><input id="clear-key" type="checkbox"> Borrar la clave guardada</label>
+            <a class="text-link" href="https://www.eulerstream.com/dashboard" target="_blank" rel="noopener noreferrer">Abrir Euler Stream ↗</a>
+          </div>
+          <div id="tikfinity-fields" hidden><label>WebSocket local<input id="tikfinity-url" value="ws://localhost:21213/" spellcheck="false"></label></div>
+          <label class="checkbox"><input id="auto-connect" type="checkbox"> Conectar al iniciar el servidor</label>
+          <button class="button primary full" type="submit">Guardar configuración</button>
+        </form>
+        <div class="two-buttons"><button id="connect" class="button">Conectar</button><button id="disconnect" class="button secondary">Desconectar</button></div>
+        <p class="field-hint">Una sola conexión activa. La clave se guarda en este equipo y no se envía al overlay.</p>
+      </section>
+      <section class="card persistence-card"><div class="card-title"><span class="icon">◈</span><h2>Partida protegida</h2></div><strong id="save-state">Esperando guardado</strong><p id="recovery-state">Guardado automático cada 2 segundos. Recargar OBS conserva el combate.</p><button id="save-now" class="button secondary full">Guardar ahora</button></section>
+      <div class="sidebar-footer">OVERLAY 1080 × 1920 · CANVAS<br>Control local · FRONTERA 2.0</div>
+    </aside>
+    <div class="workspace">
+      <div class="workspace-heading"><div><span class="section-kicker">SALA DE OPERACIONES</span><h1>Tu directo, bajo control.</h1><p>El chat combate. Tú diriges la experiencia.</p></div><div id="mode" class="mode"><i></i> MODO LOCAL</div></div>
+      <div id="notice" role="status" class="notice">Listo para recibir refuerzos. Configura una conexión o inicia la demo.</div>
+      <section class="match-card card">
+        <div class="match-heading"><span id="round">RONDA 01</span><span id="phase" class="tag">EN CURSO</span></div>
+        <div class="match-score"><div class="red"><small>EQUIPO</small><strong>ROJO</strong><b id="red-wins">0</b></div><div class="clock"><span>TIEMPO RESTANTE</span><strong id="time">03:00</strong><small>VICTORIAS GLOBALES</small></div><div class="blue"><small>EQUIPO</small><strong>AZUL</strong><b id="blue-wins">0</b></div></div>
+        <div class="territory-caption"><span>CONTROL DEL TERRITORIO</span><span><b id="red-control" class="red">50%</b> / <b id="blue-control" class="blue">50%</b></span></div><div class="territory"><i id="territory-fill"></i></div>
+        <div class="base-row"><span><i class="dot red-bg"></i> Base roja <b id="red-base">10.000 HP</b></span><span><i class="dot blue-bg"></i> Base azul <b id="blue-base">10.000 HP</b></span></div>
+        <div class="match-controls"><button id="pause" class="button">Pausar</button><button id="finish" class="button secondary">Finalizar ronda</button><button id="new-round" class="button secondary">Nueva ronda</button><button id="reset-scores" class="text-button">Reiniciar marcador</button></div>
+      </section>
+      <div class="metric-grid"><div><span>EN EL CAMPO</span><strong id="units">0</strong><small>Unidades activas / 360</small></div><div><span>REFUERZOS</span><strong id="queued">0</strong><small>Invocaciones en cola</small></div><div><span>COMUNIDAD</span><strong id="users">0</strong><small>Participantes registrados</small></div><div><span>SATURACIÓN</span><strong id="overflow">0</strong><small>Invocaciones descartadas</small></div></div>
+      <div class="detail-grid">
+        <section class="card"><div class="card-title"><span class="icon">♛</span><h2>Héroes de la ronda</h2><span class="tag">MVP</span></div><table><thead><tr><th>JUGADOR</th><th>DAÑO</th><th>TROPAS</th><th>PTS</th></tr></thead><tbody id="ranking"><tr><td colspan="4" class="empty">La batalla espera a sus héroes.</td></tr></tbody></table></section>
+        <section class="card"><div class="card-title"><span class="icon">⚙</span><h2>Reglas y audio</h2></div><form id="rules-form"><div class="two-fields"><label>Ronda (segundos)<input id="duration" type="number" min="30" max="1800" value="180"></label><label>HP de las bases<input id="base-hp" type="number" min="100" max="1000000" value="10000"></label></div><label class="checkbox"><input id="sound-enabled" type="checkbox"> Habilitar efectos en el overlay</label><label>Volumen <span id="volume-label">35%</span><input id="volume" type="range" min="0" max="100" value="35"></label><button type="submit" class="button secondary full">Guardar reglas y audio</button><p class="field-hint">Duración y HP se aplican en la próxima ronda. En OBS: Interactuar → S para desbloquear audio.</p></form></section>
+      </div>
+      <section class="card simulator"><div class="card-title"><span class="icon">⌘</span><h2>Laboratorio de batalla</h2><span class="tag">SIMULADOR</span></div><p class="field-hint">Las pruebas afectan la ronda actual. Desconecta el proveedor antes de enviar eventos sintéticos.</p><div class="simulation-fields"><label>Usuario de prueba<input id="sim-user" value="Streamer" maxlength="32"></label><label>Avatar URL (opcional)<input id="sim-avatar" type="url" placeholder="https://…" maxlength="2048"></label><button id="demo" class="button">Iniciar demo</button></div><div class="sim-buttons"><button data-sim="red-basic" class="button red-button">1 · Tropa roja</button><button data-sim="blue-basic" class="button blue-button">2 · Tropa azul</button><button data-sim="red-titan" class="button red-button">3 · Titán rojo</button><button data-sim="blue-titan" class="button blue-button">4 · Titán azul</button><button data-sim="red-meteor" class="button red-button">5 · Meteorito rojo</button><button data-sim="blue-meteor" class="button blue-button">6 · Meteorito azul</button><button data-sim="likes" class="button secondary">7 · +10 likes</button><button data-sim="gift" class="button secondary">8 · Rosa</button></div><details><summary>Enviar un evento JSON</summary><label class="sr-only" for="json-event">Evento JSON</label><textarea id="json-event" rows="4" spellcheck="false">{"event":"chat","data":{"uniqueId":"viewer","nickname":"Viewer","comment":"rojo"}}</textarea><button id="send-json" class="button secondary">Enviar evento</button></details></section>
+      <footer class="workspace-footer"><span>EL JUEGO CONTINÚA AUNQUE CIERRES ESTE PANEL.</span><a href="/" target="_blank" rel="noopener">Abrir fuente de navegador ↗</a></footer>
+    </div>
+  </main>
+</body>
+</html>

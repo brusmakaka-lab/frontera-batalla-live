@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="description" content="Batalla Rojo vs Azul para TikTok LIVE. Euler Stream, TikFinity y recuperación de partida con panel separado.">
+  <title>FRONTERA · Batalla LIVE</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23090e1b'/%3E%3Cpath d='M14 12h16v40H14z' fill='%23ff4864'/%3E%3Cpath d='M34 12h16v40H34z' fill='%2348acff'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+  <script defer src="game.js"></script>
+  <script defer src="client.js"></script>
+</head>
+<body>
+  <main id="viewport">
+    <div id="stage" aria-label="Batalla de equipos en vivo">
+      <canvas id="battle" width="1080" height="1920" aria-label="Campo de batalla Rojo contra Azul"></canvas>
+      <header class="hud">
+        <div class="brand-row"><span class="brand"><i></i> FRONTERA<span class="brand-sub">TEAM BATTLE</span></span><span id="connection" class="status"><i></i> CONECTANDO</span></div>
+        <div class="eyebrow">EL CHAT DECIDE LA BATALLA</div>
+        <div class="scoreboard">
+          <div class="team-title red"><span class="team-label">EQUIPO</span><strong>ROJO</strong><span class="win-label"><b id="red-wins">0</b> VICTORIAS</span></div>
+          <div class="round-center"><span id="round-label">RONDA 01</span><strong id="timer">03:00</strong><span class="live-label"><i></i> EN VIVO</span></div>
+          <div class="team-title blue"><span class="team-label">EQUIPO</span><strong>AZUL</strong><span class="win-label"><b id="blue-wins">0</b> VICTORIAS</span></div>
+        </div>
+        <div class="territory-label"><span>CONTROL DEL TERRITORIO</span><span><b id="red-territory" class="red">50%</b><span class="divider"> / </span><b id="blue-territory" class="blue">50%</b></span></div>
+        <div class="territory-bar"><div id="territory-red"></div><i></i></div>
+      </header>
+      <div id="activity" class="activity">ELIGE TU EQUIPO · ESCRIBE ROJO O AZUL</div>
+      <div id="titan-alert" class="titan-alert" role="status" hidden><span>REFUERZO LEGENDARIO</span><strong>¡HA LLEGADO UN TITÁN!</strong><b id="titan-user"></b></div>
+      <footer class="bottom-hud">
+        <div class="army-stats"><span><i class="red-dot"></i><b id="red-count">0</b> TROPAS</span><span id="battle-state">ESPERANDO REFUERZOS</span><span><b id="blue-count">0</b> TROPAS<i class="blue-dot"></i></span></div>
+        <div class="join-banner"><span>¿DE QUÉ LADO ESTÁS?</span><strong>Escribe <em class="red">ROJO</em> o <em class="blue">AZUL</em></strong><p>Tu comentario entra al campo de batalla.</p></div>
+        <div class="gift-legend"><div><b>♡</b><strong>10 LIKES</strong><span>3 mini tropas</span></div><div><b>✦</b><strong>1–10 MONEDAS</strong><span>Escuadrón + guerrero</span></div><div><b>☄</b><strong>11–99</strong><span>Meteorito</span></div><div><b>♛</b><strong>100+</strong><span>Invoca un titán</span></div></div>
+        <div class="footer-line"><span>UN CHAT. DOS EQUIPOS. UNA FRONTERA.</span><span id="sound-label">SONIDO DESACTIVADO</span></div>
+      </footer>
+      <section id="results" class="results" aria-live="polite" hidden>
+        <div class="result-card"><div class="eyebrow">BATALLA FINALIZADA</div><span class="result-mark">♛</span><h1 id="winner">VICTORIA ROJA</h1><p id="win-reason"></p><div class="mvp-title">LOS HÉROES DE LA RONDA <span>MVP</span></div><ol id="mvp-list"></ol><div class="next-round">SIGUIENTE BATALLA EN <b id="countdown">8</b></div><div class="countdown-track"><i id="countdown-progress"></i></div></div>
+      </section>
+    </div>
+  </main>
+  <aside id="debug" aria-label="Panel de control y simulación" hidden>
+    <div class="panel-heading"><div><small>FRONTERA / STUDIO</small><h2>Control de batalla</h2></div><button id="close-debug" aria-label="Cerrar panel">✕</button></div>
+    <p class="panel-note">Panel local · D para ocultar. Usa «Interactuar» en OBS para los atajos.</p>
+    <div id="metrics" class="metrics">Preparando motor…</div>
+    <label>Usuario del simulador<input id="sim-user" value="Streamer" maxlength="32" autocomplete="off"></label>
+    <label>Avatar URL (opcional)<input id="sim-avatar" placeholder="https://…" maxlength="2048" type="url"></label>
+    <div class="button-grid"><button data-sim="red-basic" class="red-button">1 · Tropa roja</button><button data-sim="blue-basic" class="blue-button">2 · Tropa azul</button><button data-sim="red-titan" class="red-button">3 · Titán rojo</button><button data-sim="blue-titan" class="blue-button">4 · Titán azul</button><button data-sim="red-meteor" class="red-button">5 · Meteorito rojo</button><button data-sim="blue-meteor" class="blue-button">6 · Meteorito azul</button><button data-sim="likes">7 · +10 likes</button><button data-sim="gift">8 · Rosa (1 moneda)</button></div>
+    <div class="button-grid"><button id="demo">Iniciar demo</button><button id="audio-toggle">Activar sonido</button><button id="pause">Pausar</button><button id="finish">Finalizar ronda</button><button id="reset">Nueva ronda</button><button id="reset-scores">Reiniciar marcador</button></div>
+    <label>Servidor WebSocket<input id="ws-url" value="ws://localhost:21213/" spellcheck="false"></label>
+    <div class="button-grid"><button id="connect">Conectar</button><button id="disconnect">Desconectar</button></div>
+    <label>Evento JSON<textarea id="json-event" rows="4" spellcheck="false">{"event":"chat","data":{"uniqueId":"viewer","nickname":"Viewer","comment":"rojo"}}</textarea></label>
+    <button id="send-json" class="wide">Enviar evento</button>
+    <div id="debug-log" role="status">Listo. No se generan participantes artificiales fuera del modo demo.</div>
+  </aside>
+</body>
+</html>

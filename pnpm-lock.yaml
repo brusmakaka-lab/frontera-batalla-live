@@ -1,0 +1,70 @@
+lockfileVersion: '9.0'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
+importers:
+
+  .:
+    dependencies:
+      '@eulerstream/euler-websocket-sdk':
+        specifier: 1.1.0
+        version: 1.1.0
+      ws:
+        specifier: 8.23.0
+        version: 8.23.0
+
+packages:
+
+  '@bufbuild/protobuf@2.17.0':
+    resolution: {integrity: sha512-hcPkSz6D7MiTU/5VBBhK+kxaYDoOdQ6yJRFJ3kS8Nydp+VZXfg1vrpABKPNod8bXMufsVCmiUJVIKFzCzta4uw==}
+
+  '@eulerstream/euler-websocket-sdk@1.1.0':
+    resolution: {integrity: sha512-H+vTuQfBb1XmV9Yv20/A8Q/8veoy5MBE8sFEofIty47m/PKqrN/8wKzNa1QgVgdJ7R6cJkrNT5tBH6HY48sK1w==}
+
+  eventemitter3@5.0.4:
+    resolution: {integrity: sha512-mlsTRyGaPBjPedk6Bvw+aqbsXDtoAyAzm5MO7JgU+yVRyMQ5O8bD4Kcci7BS85f93veegeCPkL8R4GLClnjLFw==}
+
+  fflate@0.8.3:
+    resolution: {integrity: sha512-tbZNuJrLwGUp3zshBtdy4W+ORxZuIh8a5ilyIEQDC5rY1f3U20JMry0Ll3WBzU58EZKsEuJFXhb5gwv8CsPvgA==}
+
+  tiktok-live-proto-full-types@0.2.0:
+    resolution: {integrity: sha512-OMxN6HfPCbZ9oXzhFNpO7Ae26Iuo6qCxkik79JOEoBZNe03gxClUCoPyzxgYrMnHHRLWys2Qc54bEHdYqNXdJA==}
+
+  ws@8.23.0:
+    resolution: {integrity: sha512-wCkmX8QMOrKjgO8HW2WyDbTSGeqkocxgDzS9iR79rEAexty6/2qzilx3Ag8Tqf9ykop3irLKle0MtVn5qjVnoQ==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: '>=5.0.2'
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
+
+  zod@3.25.76:
+    resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
+
+snapshots:
+
+  '@bufbuild/protobuf@2.17.0': {}
+
+  '@eulerstream/euler-websocket-sdk@1.1.0':
+    dependencies:
+      '@bufbuild/protobuf': 2.17.0
+      eventemitter3: 5.0.4
+      fflate: 0.8.3
+      tiktok-live-proto-full-types: 0.2.0
+      zod: 3.25.76
+
+  eventemitter3@5.0.4: {}
+
+  fflate@0.8.3: {}
+
+  tiktok-live-proto-full-types@0.2.0: {}
+
+  ws@8.23.0: {}
+
+  zod@3.25.76: {}
